@@ -62,6 +62,20 @@ function isNewer(latest, current) {
   return lc > cc;
 }
 
+// Nettoie les .dmg téléchargés lors de mises à jour précédentes (laissés dans
+// le dossier temp après installation). Supprimés au prochain lancement
+// (user 2026-06-02 : "quand on a fini d'installer, l'installateur est effacé ?").
+function cleanupOldInstallers() {
+  try {
+    const dir = os.tmpdir();
+    for (const f of fs.readdirSync(dir)) {
+      if (/^WatchVerse-.*\.dmg$/i.test(f)) {
+        try { fs.unlinkSync(path.join(dir, f)); } catch { /* monté/verrouillé → retry au prochain lancement */ }
+      }
+    }
+  } catch { /* tmpdir illisible — ignore */ }
+}
+
 async function fetchLatestRelease() {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 6000);
@@ -252,6 +266,7 @@ function registerIpc() {
  */
 async function checkForUpdates(parent) {
   registerIpc();
+  cleanupOldInstallers(); // efface le .dmg d'un update précédent
 
   const release = await fetchLatestRelease();
   if (!release || !release.tag_name) {

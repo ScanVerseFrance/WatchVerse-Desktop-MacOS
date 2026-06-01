@@ -1,0 +1,94 @@
+{
+  "name": "watchverse-desktop-macos",
+  "version": "0.1.0",
+  "description": "Native macOS desktop wrapper for WatchVerse with Discord Rich Presence",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "cross-env WATCHVERSE_DEV=1 electron .",
+    "lan": "cross-env WATCHVERSE_DEV=1 WATCHVERSE_URL=http://192.168.2.100:5173 electron .",
+    "build:mac": "electron-builder --mac --arm64 --x64",
+    "build:mac:arm64": "electron-builder --mac --arm64",
+    "build:mac:x64": "electron-builder --mac --x64",
+    "build:mac:dir": "electron-builder --mac --dir"
+  },
+  "author": {
+    "name": "Team WatchVerse",
+    "email": "contact@watchverse.watch",
+    "url": "https://watchverse.watch"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^41.5.0",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.watchverse.desktop",
+    "productName": "WatchVerse",
+    "copyright": "Copyright © 2026 Team WatchVerse",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "!**/*.{md,markdown}",
+      "!**/.DS_Store"
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "icon": "assets/icon.png",
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] }
+      ],
+      "artifactName": "WatchVerse-${version}-${arch}.${ext}",
+      "darkModeSupport": true,
+      "minimumSystemVersion": "10.15.0",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "identity": "-",
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSHumanReadableCopyright": "Copyright © 2026 Team WatchVerse",
+        "LSApplicationCategoryType": "public.app-category.entertainment",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLName": "WatchVerse Deep Link",
+            "CFBundleURLSchemes": ["watchverse"]
+          }
+        ]
+      },
+      "protocols": [
+        {
+          "name": "WatchVerse Deep Link",
+          "schemes": ["watchverse"]
+        }
+      ]
+    },
+    "dmg": {
+      "title": "WatchVerse ${version}",
+      "icon": "assets/icon.png",
+      "iconSize": 96,
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        { "x": 140, "y": 200, "type": "file" },
+        { "x": 400, "y": 200, "type": "link", "path": "/Applications" }
+      ],
+      "writeUpdateInfo": false
+    },
+    "extraMetadata": {
+      "main": "src/main.js"
+    }
+  }
+}

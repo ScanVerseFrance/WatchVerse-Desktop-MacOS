@@ -89,9 +89,10 @@ build/
 
 ## TODO before shipping
 
-- Confirm the **Discord invite** (`WATCHVERSE_DISCORD_INVITE`).
-- The **updater repo** `ScanVerseFrance/WatchVerse-Desktop-MacOS` must be public
-  with `.dmg` release assets.
+- Discord invite default is `https://discord.gg/EtFSEn39CE` (override via
+  `WATCHVERSE_DISCORD_INVITE`).
+- The **updater repo** `ScanVerseFrance/WatchVerse-Desktop-MacOS` is public;
+  attach `.dmg` release assets via the CI workflow (tag push `vX.Y.Z`).
 
 ## License
 
